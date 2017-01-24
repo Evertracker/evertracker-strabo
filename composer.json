@@ -1,0 +1,30 @@
+{
+    "name": "evertracker/strabo",
+    "description": "Segmentation and Clustering algorithms for positioning locations",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/evertracker/path-segmentation/issues",
+        "source": "https://github.com/evertracker/path-segmentation"
+    },
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Strabo\\": "src/Strabo"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Strabo\\": "tests/Strabo"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
