@@ -49,7 +49,7 @@ abstract class Location
     /**
      * @return float
      */
-    abstract function getRadianInMeters();
+    abstract function getEarthRadius();
 
     /**
      * Check if the given location is the same as current location.
@@ -81,11 +81,11 @@ abstract class Location
      * Get the distance between two locations.
      *
      * @param Location $location
+     * @param int      $precision
      *
-     * @return float                    The distance in meters.
-     * @throws InvalidArgumentException
+     * @return float The distance in meters in the given precision.
      */
-    public function getDistance(Location $location)
+    public function distance(Location $location, $precision = 3)
     {
         // Check objects.
         if (empty($location)) {
@@ -93,7 +93,7 @@ abstract class Location
         }
 
         // Check equals
-        if ($this->equals($location, $precision = 10)) {
+        if ($this->equals($location, 10)) {
             return 0;
         }
 
@@ -109,7 +109,7 @@ abstract class Location
         $a = (pow($deltaLatitude_sin, 2)) + (cos($radiusLatitude1) * cos($radiusLatitude2) * pow($deltaLongitude_sin, 2));
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
 
-        return $this->getRadianInMeters() * $c;
+        return NumberHelper::floor($this->getEarthRadius() * $c, $precision);
     }
 
     /**
@@ -132,7 +132,7 @@ abstract class Location
     public function getSpeed(Location $location)
     {
         // Get distance
-        $distance = $this->getDistance($location);
+        $distance = $this->distance($location);
         $duration = abs($this->getTimestamp() - $location->getTimestamp());
         if (empty($duration)) {
             throw new InvalidArgumentException('The duration between the two locations is 0 and thus speed cannot be calculated');
@@ -176,6 +176,10 @@ abstract class Location
      */
     public function setLatitude(float $latitude)
     {
+        if ($latitude < -90 || $latitude > 90) {
+            throw new InvalidArgumentException('Latitude is out of range [-90, 90].');
+        }
+
         $this->latitude = $latitude;
 
         return $this;
@@ -196,6 +200,10 @@ abstract class Location
      */
     public function setLongitude(float $longitude)
     {
+        if ($longitude < -180 || $longitude > 180) {
+            throw new InvalidArgumentException('Longitude is out of range [-180, 180].');
+        }
+
         $this->longitude = $longitude;
 
         return $this;

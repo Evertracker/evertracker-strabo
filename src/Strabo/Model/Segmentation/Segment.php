@@ -212,7 +212,7 @@ class Segment
      * - Length of the segment as distance from first to last location
      * - Speeds: Average, Min and Max
      */
-    protected function analyse()
+    public function analyse()
     {
         // Check if there are locations to analyse
         if (count($this->getLocations()) < 2) {
