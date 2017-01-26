@@ -31,6 +31,10 @@ class EquatorLocationTest extends PHPUnit_Framework_TestCase
         $location1 = (new EquatorLocation())->setLatitude(12.123)->setLongitude(43.234);
         $location2 = (new EquatorLocation())->setLatitude(12.123)->setLongitude(43.234);
         $this->assertTrue($location1->equals($location2, 10));
+
+        $location1 = (new EquatorLocation())->setLatitude(12.123)->setLongitude(43.234);
+        $location2 = (new EquatorLocation())->setLatitude(12.124)->setLongitude(43.235);
+        $this->assertFalse($location1->equals($location2, 10));
     }
 
     /**
@@ -42,5 +46,9 @@ class EquatorLocationTest extends PHPUnit_Framework_TestCase
         $location1 = (new EquatorLocation())->setLatitude(12.123)->setLongitude(13.234);
         $location2 = (new EquatorLocation())->setLatitude(12.223)->setLongitude(13.244);
         $this->assertEquals(11172.491, $location1->distance($location2, 3));
+
+        $location1 = (new EquatorLocation())->setLatitude(12.123)->setLongitude(43.234);
+        $location2 = (new EquatorLocation())->setLatitude(12.123)->setLongitude(43.234);
+        $this->assertEquals(0, $location1->distance($location2, 3));
     }
 }
